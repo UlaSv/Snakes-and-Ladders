@@ -16,12 +16,16 @@ namespace Snake_Ladder
         {
             InitializeComponent();
         }
-
         private void LoadGame(object sender, EventArgs e)
         {
             NumberOfPlayers number = new NumberOfPlayers();
             number.Show();
+            this.Hide();
 
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

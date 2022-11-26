@@ -103,13 +103,7 @@
     <None Include="Resources\snake2.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\snkaes.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\snake3.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\snakie.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\snakie1.png" />

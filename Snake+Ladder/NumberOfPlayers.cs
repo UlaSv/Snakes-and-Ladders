@@ -20,10 +20,11 @@ namespace Snake_Ladder
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             players = 1;
             Game game = new Game(players);
             game.Show();
-
+            this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -31,6 +32,7 @@ namespace Snake_Ladder
             players = 2;
             Game game = new Game(players);
             game.Show();
+            this.Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -38,6 +40,7 @@ namespace Snake_Ladder
             players = 3;
             Game game = new Game(players);
             game.Show();
+            this.Hide();
         }
     }
 }

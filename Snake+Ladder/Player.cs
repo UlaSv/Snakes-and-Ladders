@@ -46,13 +46,13 @@ namespace Snake_Ladder
                 if (snakes.ContainsKey(playerPosition))
                 {
                     int snakeTrap = blocks.ElementAt(snakes[playerPosition]);
-                    text.Text += $"You landed on a SNAKE and go from {playerPosition} ===> to {snakeTrap}" + Environment.NewLine;
+                    text.Text += $"SNAKE ALERT!!! Go from {playerPosition} ===> to {snakeTrap}" + Environment.NewLine;
                     playerPosition = snakeTrap;
                 }
                 if (ladders.ContainsKey(playerPosition))
                 {
                     int ladderLuck = blocks.ElementAt(ladders[playerPosition]);
-                    text.Text += $"You landed on a LADDER and go from {playerPosition} ===> to {ladderLuck}" + Environment.NewLine;
+                    text.Text += $"LADDER ALERT!!! Go from {playerPosition} ===> to {ladderLuck}" + Environment.NewLine;
                     playerPosition = ladderLuck;
                 }
             }

@@ -24,6 +24,7 @@ namespace Snake_Ladder
         {
             InitializeComponent();
             Size = new Size(500, 418);
+            textBox4.Enabled = false;
             nr_players = number;
             diceNumber = 0;
             count = 0;
@@ -92,6 +93,7 @@ namespace Snake_Ladder
             {
                 textBox4.Text += $"Player {number} won" + Environment.NewLine;
                 button1.Enabled = false;
+                textBox4.Enabled = true;
             }
 
             textBox3.Text += ("--------------------------------") + Environment.NewLine;
@@ -118,11 +120,11 @@ namespace Snake_Ladder
         }
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
-            
+
             answer = textBox6.Text;
             if (answer == "1")
             {
-                //add block to a position
+                //add block to the end
                 tiles.AddLast(tiles.Count + 1);
             }
             if (answer == "2")
@@ -163,6 +165,9 @@ namespace Snake_Ladder
             {
                 //delete all blocks
                 tiles.Clear();
+                MessageBox.Show("All tiles were deleted. Game over");
+                Meniu back = new Meniu();
+                back.Show();
             }
         }
         private void AddSnake(int begin, int stop)
@@ -182,7 +187,7 @@ namespace Snake_Ladder
         }
         private void AddLadder(int begin, int stop)
         {
-            
+
             if (begin == stop || begin > stop)
                 MessageBox.Show("Wrong positions");
             else if (ladderDicctionary.ContainsKey(begin) || ladderDicctionary.ContainsKey(stop) || ladderDicctionary.ContainsValue(begin) || ladderDicctionary.ContainsValue(stop))
@@ -223,8 +228,6 @@ namespace Snake_Ladder
                 MessageBox.Show("Tile successfully deleted");
             }
         }
-
-
         private void button4_Click(object sender, EventArgs e)
         {
             string text = textBox7.Text;
@@ -244,12 +247,17 @@ namespace Snake_Ladder
                 RemoveTile(position);
             }
         }
-
         private void button5_Click(object sender, EventArgs e)
         {
             textBox7.Enabled = false;
             textBox6.Clear();
             button4.Enabled = false;
+        }
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Meniu back = new Meniu();
+            back.Show();
+            this.Close();
         }
     }
 }
