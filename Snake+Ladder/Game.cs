@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,9 +61,16 @@ namespace Snake_Ladder
         }
         public void MakeTiles()
         {
-            for (int i = 0; i < 50; i++)
+            string fileName = @"C:\Users\email\Desktop\tiles.csv";
+            using (var reader = new StreamReader(fileName))
             {
-                tiles.AddLast(i);
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(';');
+
+                    tiles.AddLast(Int32.Parse(values[0]));
+                }
             }
         }
         public void RollDice()
@@ -126,6 +134,8 @@ namespace Snake_Ladder
             {
                 //add block to the end
                 tiles.AddLast(tiles.Count + 1);
+                textBox6.Text = $"Block successfully added. The total of blocks is {tiles.Count}" + Environment.NewLine;
+                textBox6.Text += "Press Restart to continue";
             }
             if (answer == "2")
             {
@@ -168,6 +178,7 @@ namespace Snake_Ladder
                 MessageBox.Show("All tiles were deleted. Game over");
                 Meniu back = new Meniu();
                 back.Show();
+                this.Close();
             }
         }
         private void AddSnake(int begin, int stop)
@@ -225,7 +236,7 @@ namespace Snake_Ladder
             else
             {
                 tiles.Remove(pos);
-                MessageBox.Show("Tile successfully deleted");
+                MessageBox.Show("Tile successfully deleted with no complications");
             }
         }
         private void button4_Click(object sender, EventArgs e)

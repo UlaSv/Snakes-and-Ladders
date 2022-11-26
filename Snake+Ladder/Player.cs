@@ -55,6 +55,10 @@ namespace Snake_Ladder
                     text.Text += $"LADDER ALERT!!! Go from {playerPosition} ===> to {ladderLuck}" + Environment.NewLine;
                     playerPosition = ladderLuck;
                 }
+                if (playerPosition > blocks.Count - 1)
+                {
+                    text.Text += "Rolled too much. Stay where you are";
+                }
             }
         }
         public bool Winner()

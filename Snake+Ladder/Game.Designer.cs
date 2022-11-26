@@ -100,12 +100,10 @@
             // 
             this.textBox4.Font = new System.Drawing.Font("Calibri", 20F);
             this.textBox4.ForeColor = System.Drawing.Color.ForestGreen;
-            this.textBox4.Location = new System.Drawing.Point(75, 311);
+            this.textBox4.Location = new System.Drawing.Point(63, 311);
             this.textBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(165, 44);
+            this.textBox4.Size = new System.Drawing.Size(165, 40);
             this.textBox4.TabIndex = 4;
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
