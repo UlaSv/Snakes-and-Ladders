@@ -49,13 +49,13 @@ namespace Snake_Ladder
         {
             foreach (KeyValuePair<int, int> item in ladderDicctionary)
             {
-                textBox1.Text += "A Ladder goes from: " + item.Key + "  to: " + item.Value + Environment.NewLine;
+                textBox1.Text += "A Ladder goes from " + item.Key + "  to " + item.Value + Environment.NewLine;
             }
 
             textBox1.Text += "-------------------------------------" + Environment.NewLine;
             foreach (KeyValuePair<int, int> item in snakesDicctionary)
             {
-                textBox1.Text += "A Snake goes from: " + item.Key + "  to: " + item.Value + Environment.NewLine;
+                textBox1.Text += "A Snake goes from " + item.Key + "  to " + item.Value + Environment.NewLine;
             }
             textBox1.Text += "-------------------------------------" + Environment.NewLine;
         }
@@ -88,25 +88,32 @@ namespace Snake_Ladder
 
         private void button1_Click(object sender, EventArgs e)
         {
-            RollDice();
-            Player currentPlayer = playerList[count];
-            currentPlayer.GetDiceNumber(diceNumber);
-            int number = currentPlayer.PlayerNumber(count) + 1;
-            textBox3.Text += $"Player{number} rolled a {diceNumber}" + Environment.NewLine;
-            int previousPosition = currentPlayer.Position();
-            currentPlayer.Move(tiles, snakesDicctionary, ladderDicctionary, textBox3);
-            textBox3.Text += $"{number} moved from cell [{previousPosition}] ====> to cell [{currentPlayer.Position()}]" + Environment.NewLine;
-
-            if (currentPlayer.Winner())
+            if (tiles.Count() < 2)
             {
-                textBox4.Text += $"Player {number} won" + Environment.NewLine;
-                button1.Enabled = false;
-                textBox4.Enabled = true;
+                textBox3.Text = "UNABLE TO PLAY. NOT ENOUGHT BLOCKS." + Environment.NewLine;
             }
+            else
+            { 
+                RollDice();
+                Player currentPlayer = playerList[count];
+                currentPlayer.GetDiceNumber(diceNumber);
+                int number = currentPlayer.PlayerNumber(count) + 1;
+                textBox3.Text += $"Player{number} rolled a {diceNumber}" + Environment.NewLine;
+                int previousPosition = currentPlayer.Position();
+                currentPlayer.Move(tiles, snakesDicctionary, ladderDicctionary, textBox3);
+                textBox3.Text += $"Moved from cell [{previousPosition}] ====> to cell [{currentPlayer.Position()}]" + Environment.NewLine;
 
-            textBox3.Text += ("--------------------------------") + Environment.NewLine;
-            count = (count + 1) % nr_players;
-            textBox3.Text += $"It's player{count + 1} turn" + Environment.NewLine;
+                if (currentPlayer.Winner())
+                {
+                    textBox4.Text += $"Player {number} won" + Environment.NewLine;
+                    button1.Enabled = false;
+                    textBox4.Enabled = true;
+                }
+
+                textBox3.Text += ("--------------------------------") + Environment.NewLine;
+                count = (count + 1) % nr_players;
+                textBox3.Text += $"It's player{count + 1} turn" + Environment.NewLine;
+            }
         }
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
@@ -124,6 +131,7 @@ namespace Snake_Ladder
         private void button3_Click(object sender, EventArgs e)
         {
             Size = new Size(500, 418);
+            button1.Enabled = true;
 
         }
         private void textBox6_TextChanged(object sender, EventArgs e)
@@ -133,14 +141,17 @@ namespace Snake_Ladder
             if (answer == "1")
             {
                 //add block to the end
-                tiles.AddLast(tiles.Count + 1);
+                tiles.AddLast(tiles.Count);
                 textBox6.Text = $"Block successfully added. The total of blocks is {tiles.Count}" + Environment.NewLine;
-                textBox6.Text += "Press Restart to continue";
             }
-            if (answer == "2")
+            else if (answer == "2")
             {
                 //add snake
-                if (snakesDicctionary.Count * 2 / tiles.Count < 0.5)
+                if (tiles.Count == 0 || tiles.Count <= 2)
+                {
+                    textBox6.Text = "No possibility to add a snake. Add blocks first";
+                }
+                else if (snakesDicctionary.Count * 100 / tiles.Count < 50 && tiles.Count>2) 
                 {
                     textBox6.Text = "Enter in the textbox below the starting position and the ending position of the SNAKE";
                     answer = "2";
@@ -150,9 +161,13 @@ namespace Snake_Ladder
                 else
                     MessageBox.Show("too many snakes");
             }
-            if (answer == "3")
+            else if (answer == "3")
             {
-                if (ladderDicctionary.Count * 2 / tiles.Count < 0.5)
+                if (tiles.Count == 0 || tiles.Count <= 2)
+                {
+                    textBox6.Text = "No possibility to add a ladder. Add blocks first.";
+                }
+                else if (ladderDicctionary.Count * 100 / tiles.Count < 50 && tiles.Count > 2)
                 {
                     textBox6.Text = "Enter in the textbox below the starting position and the ending position of the LADDER";
                     answer = "3";
@@ -162,23 +177,41 @@ namespace Snake_Ladder
                 else
                     MessageBox.Show("too many ladders");
             }
-            if (answer == "4")
+            else if (answer == "4")
             {
                 //delete a block from a position
-                textBox6.Text = "Enter in the textbox below the position of the tile you want to remove";
-                answer = "4";
-                textBox7.Enabled = true;
-                button4.Enabled = true;
+                if (tiles.Count == 0)
+                {
+                    textBox6.Text = "There are no blocks to remove";
+                }
+                else
+                {
+                    textBox6.Text = "Enter in the textbox below the position of the tile you want to remove";
+                    answer = "4";
+                    textBox7.Enabled = true;
+                    button4.Enabled = true;
+                }
 
             }
-            if (answer == "5")
+            else if (answer == "5")
             {
                 //delete all blocks
-                tiles.Clear();
-                MessageBox.Show("All tiles were deleted. Game over");
-                Meniu back = new Meniu();
-                back.Show();
-                this.Close();
+                if (tiles.Count == 0)
+                {
+                    textBox6.Text = "There are no blocks to remove";
+                }
+                else
+                {
+                    tiles.Clear();
+                    textBox6.Text = "All tiles were deleted";
+                    snakesDicctionary.Clear();
+                    ladderDicctionary.Clear();
+                    textBox1.Clear();
+                    textBox1.Text = "There are no snakes and ladders";
+                    //Meniu back = new Meniu();
+                    //back.Show();
+                    //this.Close();
+                }
             }
         }
         private void AddSnake(int begin, int stop)
@@ -224,6 +257,7 @@ namespace Snake_Ladder
                 MessageBox.Show("Ups. You deleted a ladder as well");
                 textBox1.Clear();
                 ShowSnadder();
+                SnadderUpdate(pos);
             }
             else if (snakesDicctionary.ContainsKey(pos) || snakesDicctionary.ContainsValue(pos))
             {
@@ -232,12 +266,53 @@ namespace Snake_Ladder
                 MessageBox.Show("Ups. You deleted a snake as well");
                 textBox1.Clear();
                 ShowSnadder();
+                SnadderUpdate(pos);
             }
             else
             {
                 tiles.Remove(pos);
+                SnadderUpdate(pos);
                 MessageBox.Show("Tile successfully deleted with no complications");
             }
+        }
+        private void SnadderUpdate(int position)
+        {
+            int total = snakesDicctionary.Count;
+            for (int count = 0; count < total; count++)
+            {
+                KeyValuePair<int, int> entry = snakesDicctionary.ElementAt(count);
+                if (entry.Key > position && entry.Value > position)
+                {
+                    snakesDicctionary.Remove(entry.Key);
+                    int itemKey = entry.Key - 1;
+                    snakesDicctionary.Add(itemKey, entry.Value - 1);
+                }
+                else if (entry.Key > position)
+                {
+                    snakesDicctionary.Remove(entry.Key);
+                    int itemKey = entry.Key - 1;
+                    snakesDicctionary.Add(itemKey, entry.Value);
+                }
+
+            }
+            total = ladderDicctionary.Count;
+            for (int count = 0; count < total; count++)
+            {
+                KeyValuePair<int, int> entry = ladderDicctionary.ElementAt(count);
+                if (entry.Key > position && entry.Value > position)
+                {
+                    ladderDicctionary.Remove(entry.Key);
+                    int itemKey = entry.Key - 1;
+                    ladderDicctionary[itemKey] = entry.Value - 1;
+                }
+                else if (entry.Value > position)
+                {
+                    ladderDicctionary.Remove(entry.Key);
+                    ladderDicctionary[entry.Key] = entry.Value - 1;
+                }
+            }
+            textBox1.Clear();
+            ShowSnadder();
         }
         private void button4_Click(object sender, EventArgs e)
         {
