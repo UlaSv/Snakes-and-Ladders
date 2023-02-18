@@ -61,8 +61,9 @@ namespace Snake_Ladder
         }
         public void MakeTiles()
         {
-            string fileName = @"C:\Users\email\Desktop\tiles.csv";
-            using (var reader = new StreamReader(fileName))
+            string fileName = "tiles.csv";
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            using (var reader = new StreamReader(filePath))
             {
                 while (!reader.EndOfStream)
                 {
